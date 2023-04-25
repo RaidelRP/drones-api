@@ -1,9 +1,6 @@
 package com.example.drones.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Drone {
@@ -15,6 +12,8 @@ public class Drone {
     private Integer weightLimit;
     private Double batteryCapacity;
     private State state;
+    @ManyToOne
+    private  Medication medication;
 
     public Drone() {
     }
@@ -26,6 +25,24 @@ public class Drone {
         this.weightLimit = weightLimit;
         this.batteryCapacity = batteryCapacity;
         this.state = state;
+    }
+
+    public Drone(Long id, String serialNumber, Model model, Integer weightLimit, Double batteryCapacity, State state, Medication medication) {
+        this.id = id;
+        this.serialNumber = serialNumber;
+        this.model = model;
+        this.weightLimit = weightLimit;
+        this.batteryCapacity = batteryCapacity;
+        this.state = state;
+        this.medication = medication;
+    }
+
+    public Medication getMedication() {
+        return medication;
+    }
+
+    public void setMedication(Medication medication) {
+        this.medication = medication;
     }
 
     public Long getId() {

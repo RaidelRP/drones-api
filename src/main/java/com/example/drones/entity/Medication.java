@@ -1,9 +1,8 @@
 package com.example.drones.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Medication {
@@ -13,12 +12,30 @@ public class Medication {
     private String name;
     private String code;
     private String imagePath;
+    @OneToMany(mappedBy = "medication")
+    private List<Drone> drones;
 
     public Medication(Long id, String name, String code, String imagePath) {
         this.id = id;
         this.name = name;
         this.code = code;
         this.imagePath = imagePath;
+    }
+
+    public Medication(Long id, String name, String code, String imagePath, List<Drone> drones) {
+        this.id = id;
+        this.name = name;
+        this.code = code;
+        this.imagePath = imagePath;
+        this.drones = drones;
+    }
+
+    public List<Drone> getDrones() {
+        return drones;
+    }
+
+    public void setDrones(List<Drone> drones) {
+        this.drones = drones;
     }
 
     public Medication() {
