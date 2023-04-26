@@ -61,15 +61,16 @@ public class DroneController {
             return droneBadRequest();
 
         Medication medication = drone.getMedication();
+        medication = medicationRepository.findById(medication.getId()).get(); // Updating information of medication from database
 
         if (isMedicationEmpty(medication)) // If the medication isn't found
             return droneNotFound();
 
-        if (drone.getState() == null) // If the state isn't set, default to IDLE
-            drone.setState(State.IDLE);
-
         if (isMoreWeight(drone, medication)) // Prevent the drone from being loaded with more weight that it can carry
             return droneBadRequest();
+
+        if (drone.getState() == null) // If the state isn't set, default to IDLE
+            drone.setState(State.IDLE);
 
         Drone newDrone = repository.save(drone);
 
@@ -91,23 +92,21 @@ public class DroneController {
             return droneBadRequest();
 
         Medication medication = drone.getMedication();
+        medication = medicationRepository.findById(medication.getId()).get();
 
         if (isMedicationEmpty(medication)) // If the medication isn't found
             return droneNotFound();
 
-        if (drone.getState() == null) // If the state isn't set, default to IDLE
-            drone.setState(State.IDLE);
-
         if (isMoreWeight(drone, medication)) // Prevent the drone from being loaded with more weight that it can carry
             return droneBadRequest();
+
+        if (drone.getState() == null) // If the state isn't set, default to IDLE
+            drone.setState(State.IDLE);
 
         Drone editedDrone = repository.save(drone);
         return ok(editedDrone);
     }
 
-    private boolean isResultEmpty(Optional<Drone> result) {
-        return result.isEmpty();
-    }
 
     @DeleteMapping("/drones/delete/{id}")
     public ResponseEntity<Drone> delete(@PathVariable Long id) {
@@ -149,12 +148,13 @@ public class DroneController {
         if (id == null) // If the drone doesn't have an id, there should be an error. When editing, it should have an id
             return droneBadRequest();
 
+        medication = medicationRepository.findById(medication.getId()).get();
+
         if (medication.getId() == null)
             return droneNotFound();
 
         if (isMedicationEmpty(medication)) // If the medication isn't found
             return droneNotFound();
-
 
         Optional<Drone> result = repository.findById(id);
 
@@ -175,7 +175,6 @@ public class DroneController {
     private ResponseEntity<Drone> ok(Drone newDrone) {
         return ResponseEntity.ok(newDrone);
     }
-
 
     private ResponseEntity<Drone> droneNotFound() {
         return ResponseEntity.notFound().build();
@@ -212,4 +211,9 @@ public class DroneController {
     private boolean checkStateAndBattery(Drone drone) {
         return drone.getState() == State.LOADING && drone.getBattery() < 25.0;
     }
+
+    private boolean isResultEmpty(Optional<Drone> result) {
+        return result.isEmpty();
+    }
+
 }
