@@ -56,6 +56,8 @@ public class MedicationController {
         if (result.isEmpty()) // If the id isn't found
             return ResponseEntity.notFound().build();
 
+        medication.setId(id);
+
         Medication editedMedication = repository.save(medication);
         return ResponseEntity.ok(editedMedication);
     }
