@@ -25,8 +25,8 @@ public class MedicationController {
     }
 
     @GetMapping("/medications")
-    public List<Medication> findAll() {
-        return repository.findAll();
+    public ResponseEntity <List<Medication>> findAll() {
+        return ResponseEntity.ok(repository.findAll());
     }
 
     @GetMapping("/medications/{id}")
@@ -45,9 +45,9 @@ public class MedicationController {
         return ResponseEntity.ok(newMedication);
     }
 
-    @PutMapping("/medications/edit")
-    public ResponseEntity<Medication> update(@RequestBody Medication medication) {
-        Long id = medication.getId();
+    @PutMapping("/medications/edit/{id}")
+    public ResponseEntity<Medication> update(@RequestBody Medication medication, @PathVariable Long id) {
+
         if (id == null) // If the Medication doesn't have an id, there should be an error. When editing, it should have an id
             return ResponseEntity.badRequest().build();
 
