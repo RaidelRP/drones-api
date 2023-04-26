@@ -46,22 +46,22 @@ public class DroneController {
     }
 
     @PutMapping("/drones/edit")
-    public ResponseEntity<Drone> update(@RequestBody Drone drone){
-        if (drone.getId()==null) // If the drone doesn't have an id, there should be an error. When editing, it should have an id
+    public ResponseEntity<Drone> update(@RequestBody Drone drone) {
+        Long id = drone.getId();
+        if (id == null) // If the drone doesn't have an id, there should be an error. When editing, it should have an id
             return ResponseEntity.badRequest().build();
 
-        Long id = drone.getId();
         Optional<Drone> result = repository.findById(id);
 
         if (result.isEmpty()) // If the id isn't found
             return ResponseEntity.notFound().build();
 
-        Drone editedDrone =repository.save(drone);
+        Drone editedDrone = repository.save(drone);
         return ResponseEntity.ok(editedDrone);
     }
 
     @DeleteMapping("/drones/delete/{id}")
-    public ResponseEntity<Drone> delete(@PathVariable Long id){
+    public ResponseEntity<Drone> delete(@PathVariable Long id) {
         if (id == null) // If the drone doesn't have an id, there should be an error. When deleting, it should have an id
             return ResponseEntity.badRequest().build();
 
