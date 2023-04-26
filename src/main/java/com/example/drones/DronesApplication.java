@@ -22,7 +22,7 @@ public class DronesApplication {
 		DroneController droneController = context.getBean(DroneController.class);
 		MedicationController medicationController = context.getBean(MedicationController.class);
 
-//		Medication medication1 = new Medication(null,"Levodopa-Carbidopa","LEVOCARB","www.google.com/levodopa.jpg");
+//		Medication medication1 = new Medication(null,"Levodopa-Carbidopa","LEVOCARB","www.google.com/levodopa.jpg",300);
 //		medicationController.create(medication1);
 //
 //		Drone drone1 = new Drone(null, "LightLev", Model.Lightweight,250,50.0, State.IDLE);

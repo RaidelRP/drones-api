@@ -1,5 +1,6 @@
 package com.example.drones.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,29 +11,30 @@ public class Drone {
     private String serialNumber;
     private Model model;
     private Integer weightLimit;
-    private Double batteryCapacity;
+    private Double battery;
     private State state;
-    @ManyToOne
-    private  Medication medication;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Medication medication;
 
     public Drone() {
     }
 
-    public Drone(Long id, String serialNumber, Model model, Integer weightLimit, Double batteryCapacity, State state) {
+    public Drone(Long id, String serialNumber, Model model, Integer weightLimit, Double battery, State state) {
         this.id = id;
         this.serialNumber = serialNumber;
         this.model = model;
         this.weightLimit = weightLimit;
-        this.batteryCapacity = batteryCapacity;
+        this.battery = battery;
         this.state = state;
     }
 
-    public Drone(Long id, String serialNumber, Model model, Integer weightLimit, Double batteryCapacity, State state, Medication medication) {
+    public Drone(Long id, String serialNumber, Model model, Integer weightLimit, Double battery, State state, Medication medication) {
         this.id = id;
         this.serialNumber = serialNumber;
         this.model = model;
         this.weightLimit = weightLimit;
-        this.batteryCapacity = batteryCapacity;
+        this.battery = battery;
         this.state = state;
         this.medication = medication;
     }
@@ -77,12 +79,12 @@ public class Drone {
         this.weightLimit = weightLimit;
     }
 
-    public Double getBatteryCapacity() {
-        return batteryCapacity;
+    public Double getBattery() {
+        return battery;
     }
 
-    public void setBatteryCapacity(Double batteryCapacity) {
-        this.batteryCapacity = batteryCapacity;
+    public void setBattery(Double battery) {
+        this.battery = battery;
     }
 
     public State getState() {
@@ -100,8 +102,9 @@ public class Drone {
                 ", serialNumber='" + serialNumber + '\'' +
                 ", model=" + model +
                 ", weightLimit=" + weightLimit +
-                ", batteryCapacity=" + batteryCapacity +
+                ", battery=" + battery +
                 ", state=" + state +
+                ", medication=" + medication +
                 '}';
     }
 }

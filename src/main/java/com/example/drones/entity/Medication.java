@@ -2,7 +2,8 @@ package com.example.drones.entity;
 
 import jakarta.persistence.*;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Medication {
@@ -12,30 +13,23 @@ public class Medication {
     private String name;
     private String code;
     private String imagePath;
-    @OneToMany(mappedBy = "medication")
-    private List<Drone> drones;
+    private Integer weight;
+    @OneToMany(mappedBy = "medication", cascade = CascadeType.ALL)
+    private Set<Drone> drones = new HashSet<>();
+
+    public Medication(Long id, String name, String code, String imagePath, Integer weight) {
+        this.id = id;
+        this.name = name;
+        this.code = code;
+        this.imagePath = imagePath;
+        this.weight = weight;
+    }
 
     public Medication(Long id, String name, String code, String imagePath) {
         this.id = id;
         this.name = name;
         this.code = code;
         this.imagePath = imagePath;
-    }
-
-    public Medication(Long id, String name, String code, String imagePath, List<Drone> drones) {
-        this.id = id;
-        this.name = name;
-        this.code = code;
-        this.imagePath = imagePath;
-        this.drones = drones;
-    }
-
-    public List<Drone> getDrones() {
-        return drones;
-    }
-
-    public void setDrones(List<Drone> drones) {
-        this.drones = drones;
     }
 
     public Medication() {
@@ -73,6 +67,25 @@ public class Medication {
         this.imagePath = imagePath;
     }
 
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+
+    public Set<Drone> getDrones() {
+        return drones;
+    }
+
+    public void setDrones(Set<Drone> drones) {
+        this.drones = drones;
+        for (Drone drone : drones) {
+            drone.setMedication(this);
+        }
+    }
+
     @Override
     public String toString() {
         return "Medication{" +
@@ -80,6 +93,7 @@ public class Medication {
                 ", name='" + name + '\'' +
                 ", code='" + code + '\'' +
                 ", imagePath='" + imagePath + '\'' +
+                ", weight=" + weight +
                 '}';
     }
 }
